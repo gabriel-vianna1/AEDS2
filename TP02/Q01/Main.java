@@ -137,7 +137,25 @@ class Pokemon{
         this.captureDate = captureDate;
     }
 
-    
+
+    // Implementação do método para clonar um pokemkon
+    public Pokemon clonePokemon(Pokemon p){
+        
+        Pokemon clone = new Pokemon();
+        clone.id = p.getId();
+        clone.name = p.getName();
+        clone.description = p.getDescription();
+        clone.generation = p.getGeneration();
+        clone.types = p.getType();
+        clone.abilities = p.getAbilities();
+        clone.weight = p.getWeight();
+        clone.height = p.getHeight();
+        clone.isLegendary = p.getIsLegendary();
+        clone.captureRate = p.getCaptureRate();
+        clone.captureDate = p.getCaptureDate();
+
+        return clone;
+    }
 
 
 
