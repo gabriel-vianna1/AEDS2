@@ -1,5 +1,6 @@
 package Q01;
 import java.util.*;
+import java.io.*;
 
 public class Main{
     public static void main(String[] args){
@@ -137,7 +138,7 @@ class Pokemon{
         this.captureDate = captureDate;
     }
 
-
+    
     // Implementação do método para clonar um pokemkon
     public Pokemon clonePokemon(Pokemon p){
         
@@ -156,6 +157,34 @@ class Pokemon{
 
         return clone;
     }
+    
+    // Implementação do código para ler os pokemons do arquivo csv
+    public void lerPokemons(){
+     
+     try(BufferedReader leitor = new BufferedReader(new FileReader("pokemon.csv"))){
+       
+        String linha;
+
+        while((linha = leitor.readLine()) != null){
+        
+            // O parametro dentro do split é para separar das aspas duplas
+            String[] linhaSeparada = linha.split("\"");
+            String abilities = linhaSeparada[1];
+            // Parametro 1 pq, as " dividem em apenas 3 strings diferentes.
+        
+
+
+           
+            
+
+        }
+
+     }catch(IOException e){
+        e.printStackTrace();
+     }
+    }
+
+    
 
 
 
