@@ -1,9 +1,13 @@
 package Q01;
 import java.util.*;
 import java.io.*;
+import java.text.*;
+import java.util.stream.Collectors;
 
 public class Main{
     public static void main(String[] args){
+
+        List<Pokemon> pokedex = new ArrayList<>();
 
     }
 }
@@ -83,7 +87,7 @@ class Pokemon{
         return this.description;
     }
 
-    public List<String> getType(){
+    public List<String> getTypes(){
         return types;
     }
 
@@ -147,7 +151,7 @@ class Pokemon{
         clone.name = p.getName();
         clone.description = p.getDescription();
         clone.generation = p.getGeneration();
-        clone.types = p.getType();
+        clone.types = p.getTypes();
         clone.abilities = p.getAbilities();
         clone.weight = p.getWeight();
         clone.height = p.getHeight();
@@ -157,25 +161,84 @@ class Pokemon{
 
         return clone;
     }
-    
+
     // Implementação do código para ler os pokemons do arquivo csv
-    public void lerPokemons(){
+    public void lerPokemons(List<Pokemon> pokedex){
      
-     try(BufferedReader leitor = new BufferedReader(new FileReader("pokemon.csv"))){
+     try(BufferedReader leitor = new BufferedReader(new FileReader("/tmp/pokemon.csv"))){
        
         String linha;
+     
 
         while((linha = leitor.readLine()) != null){
         
             // O parametro dentro do split é para separar das aspas duplas
             String[] linhaSeparada = linha.split("\"");
-            String abilities = linhaSeparada[1];
+            String aux = linhaSeparada[1];
             // Parametro 1 pq, as " dividem em apenas 3 strings diferentes.
-        
+          
+          
+            aux = aux.replaceAll("\\[", "").replaceAll("\\]", "").trim();  
 
-
-           
+            List<String> abilitiesP = new ArrayList<>();
+            String[] aux2 = aux.split(",");
+            for(int i = 0; i < aux2.length; i++){
+                abilitiesP.add(aux2[i]);
+            }
             
+            List<String> atributos = new ArrayList<>();
+
+            for(int i = 0; i < linhaSeparada.length; i++){
+
+                String[] linhaSeparada2 = linhaSeparada[i].split(",");
+
+                for(String atributo : linhaSeparada2){
+
+                    atributos.add(atributo);
+
+                }
+            }
+            
+         int idP = Integer.parseInt(atributos.get(0));
+         int generationP = Integer.parseInt(atributos.get(1));
+         String nomeP = atributos.get(2);
+         String descriptionP = atributos.get(3);
+
+         List<String> typesP = new ArrayList<>();
+         typesP.add(atributos.get(4));
+         
+         if(atributos.get(5) != null){
+         typesP.add(atributos.get(5));   
+         }
+
+   
+
+        int n = atributos.size();
+        
+        // Transformar uma string na formatação de data em uma classe Date
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date captureDateP = null;
+        try{
+         captureDateP = formato.parse(atributos.get(n - 1));
+
+
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+
+        int isLegendaryAux = Integer.parseInt(atributos.get(n - 2));
+        boolean isLegendaryP;
+        if(isLegendaryAux == 0)
+        isLegendaryP = false;
+        else
+        isLegendaryP = true;
+        
+        int captureRateP = Integer.parseInt(atributos.get(n - 3));
+        double heightP = Double.parseDouble(atributos.get(n - 4));
+        double weightP = Double.parseDouble(atributos.get(n - 5));
+
+        Pokemon p = new Pokemon(idP, nomeP, generationP, descriptionP, typesP, abilitiesP, weightP, heightP, isLegendaryP, captureRateP, captureDateP);
+        pokedex.add(p);
 
         }
 
@@ -184,8 +247,16 @@ class Pokemon{
      }
     }
 
+    public void imprimePokemon(Pokemon p){
+    
+     String tiposFormatados = p.getTypes().stream().map(tipo -> "'" + tipo + "'")  // Colocando aspas simples em volta de cada tipo
+     .collect(Collectors.joining(", "));  // Juntando os tipos separados por vírgula
+
+     System.out.println("[#" + p.getId() + " ->" + p.getName() +": " + p.getDescription() + " - " + "[" + tiposFormatados + "]" + " - " + "[" + p.getAbilities() + "]" + " - " + p.getWeight() + "kg" + " - " + p.getHeight() + "m" + " - " +  p.getCaptureRate() + "%" + " - " + p.getIsLegendary() + " - " + p.getGeneration() + " gen" + "]" + " - " + p.getCaptureDate());
+    
+    }
+}
     
 
 
 
-}
