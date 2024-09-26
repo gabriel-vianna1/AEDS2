@@ -6,9 +6,29 @@ import java.util.stream.Collectors;
 
 public class Main{
     public static void main(String[] args){
+        
+        Scanner sc = new Scanner(System.in);
+        boolean fim = true;
+        
+        Pokemon teste = new Pokemon();
+        List<Pokemon> pokedex = teste.lerPokemons();
 
-        List<Pokemon> pokedex = new ArrayList<>();
+        
+        
+        do{
+        String n = sc.nextLine();
+        if(n.equals("FIM")){
+            fim = false;
+        }
+        else{
+        int idPokemon = Integer.parseInt(n);
+        teste.imprimePokemon(pokedex.get(idPokemon));
+        
+        }
 
+        }while(fim);
+
+    sc.close();
     }
 }
 
@@ -163,7 +183,9 @@ class Pokemon{
     }
 
     // Implementação do código para ler os pokemons do arquivo csv
-    public void lerPokemons(List<Pokemon> pokedex){
+    public  List<Pokemon> lerPokemons(){
+
+        List<Pokemon> pokedex = new ArrayList<>();
      
      try(BufferedReader leitor = new BufferedReader(new FileReader("/tmp/pokemon.csv"))){
        
@@ -245,6 +267,9 @@ class Pokemon{
      }catch(IOException e){
         e.printStackTrace();
      }
+
+     return pokedex;
+
     }
 
     public void imprimePokemon(Pokemon p){
