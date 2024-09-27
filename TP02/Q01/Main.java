@@ -1,4 +1,3 @@
-package Q01;
 import java.util.*;
 import java.io.*;
 import java.text.*;
@@ -146,6 +145,8 @@ class Pokemon{
         this.height = 0;
         this.captureRate = 0;
         this.isLegendary = false;
+        this.types = new ArrayList<>();
+        this.abilities = new ArrayList<>();
     }
     
     public Pokemon(int id, String name, int generation, String description, List<String> types, List<String> abilities, double weight, double height, boolean isLegendary,int captureRate,  Date captureDate){
@@ -164,30 +165,17 @@ class Pokemon{
 
     
     // Implementação do método para clonar um pokemkon
-    public Pokemon clonePokemon(Pokemon p){
-        
-        Pokemon clone = new Pokemon();
-        clone.id = p.getId();
-        clone.name = p.getName();
-        clone.description = p.getDescription();
-        clone.generation = p.getGeneration();
-        clone.types = p.getTypes();
-        clone.abilities = p.getAbilities();
-        clone.weight = p.getWeight();
-        clone.height = p.getHeight();
-        clone.isLegendary = p.getIsLegendary();
-        clone.captureRate = p.getCaptureRate();
-        clone.captureDate = p.getCaptureDate();
-
-        return clone;
+    public Pokemon clonePokemon(Pokemon p) {
+        return new Pokemon(p.getId(), p.getName(), p.getGeneration(), p.getDescription(), p.getTypes(), p.getAbilities(), p.getWeight(), p.getHeight(), p.getIsLegendary(), p.getCaptureRate(), p.getCaptureDate());
     }
+
 
     // Implementação do código para ler os pokemons do arquivo csv
     public  List<Pokemon> lerPokemons(){
 
         List<Pokemon> pokedex = new ArrayList<>();
      
-     try(BufferedReader leitor = new BufferedReader(new FileReader("/tmp/pokemon.csv"))){
+     try(BufferedReader leitor = new BufferedReader(new FileReader("pokemon.csv"))){
        
         String linha;
      
@@ -195,7 +183,7 @@ class Pokemon{
         while((linha = leitor.readLine()) != null){
         
             // O parametro dentro do split é para separar das aspas duplas
-            String[] linhaSeparada = linha.split("\"");
+            String[] linhaSeparada = linha.split(",(?=\")");
             String aux = linhaSeparada[1];
             // Parametro 1 pq, as " dividem em apenas 3 strings diferentes.
           
@@ -220,6 +208,8 @@ class Pokemon{
 
                 }
             }
+        
+        
             
          int idP = Integer.parseInt(atributos.get(0));
          int generationP = Integer.parseInt(atributos.get(1));
@@ -256,14 +246,14 @@ class Pokemon{
         isLegendaryP = true;
         
         int captureRateP = Integer.parseInt(atributos.get(n - 3));
-        double heightP = Double.parseDouble(atributos.get(n - 4));
-        double weightP = Double.parseDouble(atributos.get(n - 5));
+        double weightP = Double.parseDouble(atributos.get(n - 4));
+        double heightP = Double.parseDouble(atributos.get(n - 5));
 
         Pokemon p = new Pokemon(idP, nomeP, generationP, descriptionP, typesP, abilitiesP, weightP, heightP, isLegendaryP, captureRateP, captureDateP);
         pokedex.add(p);
 
         }
-
+    
      }catch(IOException e){
         e.printStackTrace();
      }
