@@ -12,8 +12,6 @@ public class Main{
         Pokemon teste = new Pokemon();
         List<Pokemon> pokedex = teste.lerPokemons();
 
-        
-        
         do{
         String n = sc.nextLine();
         if(n.equals("FIM")){
@@ -182,76 +180,76 @@ class Pokemon{
 
         while((linha = leitor.readLine()) != null){
         
-            // O parametro dentro do split é para separar das aspas duplas
-            String[] linhaSeparada = linha.split(",(?=\")");
-            String aux = linhaSeparada[1];
-            // Parametro 1 pq, as " dividem em apenas 3 strings diferentes.
-          
-          
-            aux = aux.replaceAll("\\[", "").replaceAll("\\]", "").trim();  
+            String[] atributos = linha.split(",");
+            int pointerInicio = 0;
+            int pointerFim = 0;
 
-            List<String> abilitiesP = new ArrayList<>();
-            String[] aux2 = aux.split(",");
-            for(int i = 0; i < aux2.length; i++){
-                abilitiesP.add(aux2[i]);
-            }
-            
-            List<String> atributos = new ArrayList<>();
-
-            for(int i = 0; i < linhaSeparada.length; i++){
-
-                String[] linhaSeparada2 = linhaSeparada[i].split(",");
-
-                for(String atributo : linhaSeparada2){
-
-                    atributos.add(atributo);
-
+            for(int i = 0; i < atributos.length; i++){
+                for(int j = 0; j < atributos[i].length(); i++){
+                        if(atributos[i].charAt(j) == '['){
+                            pointerInicio = i;
+                        }
+                        else if(atributos[i].charAt(j) == ']'){
+                            pointerFim = i;
+                        }
                 }
             }
-        
-        
+            // Tira os colchetes, vírgulas, aspas duplas e simples
+            linha = linha.replaceAll("[\"'\\[\\],]", "").trim();
+            atributos = linha.split(" ");
+
+            Pokemon p = new Pokemon();
+            int cont = 0;        
             
-         int idP = Integer.parseInt(atributos.get(0));
-         int generationP = Integer.parseInt(atributos.get(1));
-         String nomeP = atributos.get(2);
-         String descriptionP = atributos.get(3);
+            p.setId(Integer.parseInt(atributos[cont]));
+            cont++;
+            p.setGeneration(Integer.parseInt(atributos[cont]));
+            cont++;
+            p.setName(atributos[cont]);
+            cont++;
+            p.setDescription(atributos[cont]);
+            cont++;
+            p.setType(atributos[cont]);
+            //checar se da erro
+            if(!atributos[5].equals("")){
+             p.setType(atributos[5]);
+             cont++;
+            }
 
-         List<String> typesP = new ArrayList<>();
-         typesP.add(atributos.get(4));
-         
-         if(atributos.get(5) != null){
-         typesP.add(atributos.get(5));   
-         }
-
-   
-
-        int n = atributos.size();
+           int qtdAbilites = (pointerFim - pointerInicio) + 1;
+            
+           for(int i = 6; i <= pointerFim; i++){
+            p.setAbility(atributos[i]);
+           }
         
-        // Transformar uma string na formatação de data em uma classe Date
-        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-        Date captureDateP = null;
-        try{
-         captureDateP = formato.parse(atributos.get(n - 1));
+           cont += qtdAbilites;
 
+           p.setWeight(Double.parseDouble(atributos[cont]));
+           cont++;
+           p.setHeight(Double.parseDouble(atributos[cont]));
+           cont++;
+           p.setCaptureRate(Integer.parseInt(atributos[cont]));
+           cont++;
+           if(Integer.parseInt(atributos[cont]) == 0){
+            p.setIsLegendary(false);
+            cont++;
+           }
+           else{
+            p.setIsLegendary(true);
+            cont++;
+           }
 
-        }catch(ParseException e){
+           SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+ 
+           try {
+            // Converter string para objeto Date
+             Date data = formatter.parse(atributos[cont]);
+             p.setCaptureDate(data);
+        } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        int isLegendaryAux = Integer.parseInt(atributos.get(n - 2));
-        boolean isLegendaryP;
-        if(isLegendaryAux == 0)
-        isLegendaryP = false;
-        else
-        isLegendaryP = true;
-        
-        int captureRateP = Integer.parseInt(atributos.get(n - 3));
-        double weightP = Double.parseDouble(atributos.get(n - 4));
-        double heightP = Double.parseDouble(atributos.get(n - 5));
-
-        Pokemon p = new Pokemon(idP, nomeP, generationP, descriptionP, typesP, abilitiesP, weightP, heightP, isLegendaryP, captureRateP, captureDateP);
-        pokedex.add(p);
-
+  
+           pokedex.add(p);
         }
     
      }catch(IOException e){
