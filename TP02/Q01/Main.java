@@ -185,7 +185,7 @@ class Pokemon{
             int pointerFim = 0;
 
             for(int i = 0; i < atributos.length; i++){
-                for(int j = 0; j < atributos[i].length(); i++){
+                for(int j = 0; j < atributos[i].length(); j++){
                         if(atributos[i].charAt(j) == '['){
                             pointerInicio = i;
                         }
@@ -200,7 +200,7 @@ class Pokemon{
 
             Pokemon p = new Pokemon();
             int cont = 0;        
-            
+            try{
             p.setId(Integer.parseInt(atributos[cont]));
             cont++;
             p.setGeneration(Integer.parseInt(atributos[cont]));
@@ -238,7 +238,9 @@ class Pokemon{
             p.setIsLegendary(true);
             cont++;
            }
-
+        }catch(NumberFormatException e){
+            e.printStackTrace();
+        }
            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
  
            try {
