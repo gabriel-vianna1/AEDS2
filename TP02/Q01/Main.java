@@ -21,7 +21,7 @@ public class Main{
         }
         else{
         int idPokemon = Integer.parseInt(n);
-        teste.imprimePokemon(pokedex.get(idPokemon));
+        teste.imprimePokemon(pokedex.get(idPokemon - 1));
         
         }
 
@@ -175,12 +175,11 @@ class Pokemon{
 
         List<Pokemon> pokedex = new ArrayList<>();
      
-     try(BufferedReader leitor = new BufferedReader(new FileReader("/tmp/pokemon.csv"))){
+     try(BufferedReader leitor = new BufferedReader(new FileReader("pokemon.csv"))){
        
-        String linha;
-     
-
-        while((linha = leitor.readLine()) != null){
+        String linha = leitor.readLine();
+        
+            while((linha = leitor.readLine()) != null){
         
             String[] atributos = linha.split(",");
             int pointerInicio = 0;
@@ -203,57 +202,76 @@ class Pokemon{
             Pokemon p = new Pokemon();
             int cont = 0;        
             try{
-            p.setId(Integer.parseInt(atributos[cont]));
+            p.setId(Integer.parseInt(atributos[cont].trim()));
             cont++;
-            p.setGeneration(Integer.parseInt(atributos[cont]));
+            p.setGeneration(Integer.parseInt(atributos[cont].trim()));
             cont++;
-            p.setName(atributos[cont]);
+            p.setName(atributos[cont].trim());
             cont++;
-            p.setDescription(atributos[cont]);
+            p.setDescription(atributos[cont].trim());
             cont++;
             p.setType(atributos[cont].trim());
             cont++;
             //checar se da erro
             if(!atributos[cont].isEmpty()){
-             p.setType(atributos[cont].trim());
+            p.setType(atributos[cont].trim());
             }
             cont++;
 
-           int qtdAbilites = (pointerFim - pointerInicio) + 1;
+            int qtdAbilites = (pointerFim - pointerInicio) + 1;
+                
+            for(int i = 6; i <= pointerFim; i++){
+                p.setAbility(atributos[i].trim());
+                
+            }
             
-           for(int i = 6; i <= pointerFim; i++){
-            p.setAbility(atributos[i].trim());
+            cont += qtdAbilites;
             
-           }
-        
-           cont += qtdAbilites;
+            if (!(atributos[cont].isEmpty())) {
+                p.setWeight(Double.parseDouble(atributos[cont].trim()));
+                cont++;    
+            } else {
+                setWeight(0);
+                cont++;
+            }
 
-           p.setWeight(Double.parseDouble(atributos[cont].trim()));
-           cont++;
-           p.setHeight(Double.parseDouble(atributos[cont].trim()));
-           cont++;
-           p.setCaptureRate(Integer.parseInt(atributos[cont].trim()));
-           cont++;
-           if(Integer.parseInt(atributos[cont].trim()) == 0){
-            p.setIsLegendary(false);
-            cont++;
-           }
-           else{
-            p.setIsLegendary(true);
-            cont++;
-           }
+            if (!(atributos[cont].isEmpty())) {
+                p.setHeight(Double.parseDouble(atributos[cont].trim()));
+                cont++;
+            } else {
+                setHeight(0);
+                cont++;
+            }
+
+            if (!(atributos[cont].isEmpty())) {
+                p.setCaptureRate(Integer.parseInt(atributos[cont].trim()));
+                cont++;
+            } else {
+                setCaptureRate(0);
+                cont++;
+            }
+             
+
+            if(atributos[cont].equals("0")){
+                p.setIsLegendary(false);
+                cont++;
+            }
+            else{
+                p.setIsLegendary(true);
+                cont++;
+            }
+          
+            if (!(atributos[cont].isEmpty())) {
+                LocalDate data = parseDate(atributos[cont].trim());
+                p.setCaptureDate(data);
+            }
+
+
+
         }catch(NumberFormatException e){
             e.printStackTrace();
         }
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
- 
-        try {
-            LocalDate data = LocalDate.parse(atributos[cont].trim(), formato);
-             p.setCaptureDate(data);
-            // set capture date, ta no outro gpt
-        } catch (DateTimeParseException e) {
-            e.printStackTrace();
-        }
+
 
            pokedex.add(p);
         }
@@ -266,9 +284,19 @@ class Pokemon{
 
     }
 
+    private LocalDate parseDate(String dateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.parse(dateStr, formatter);
+    }
+
     public void imprimePokemon(Pokemon p){
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String formattedDate = p.getCaptureDate().format(dateFormatter);
+        
+        String formattedDate = "Nulo";
+
+    if (p.getCaptureDate() != null) {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            formattedDate = p.getCaptureDate().format(dateFormatter);
+        }
 
      String tiposFormatados = p.getTypes().stream().map(tipo -> "'" + tipo + "'")  // Colocando aspas simples em volta de cada tipo
      .collect(Collectors.joining(", "));  // Juntando os tipos separados por vírgula
@@ -278,7 +306,8 @@ class Pokemon{
     .collect(Collectors.joining(", "));  // Juntando as habilidades separadas por vírgula
 
 
-     System.out.println("[#" + p.getId() + " -> " + p.getName() +": " + p.getDescription() + " - " + "[" + tiposFormatados + "]" + " - " + "[" + abilitiesFormatadas + "]" + " - " + p.getWeight() + "kg" + " - " + p.getHeight() + "m" + " - " +  p.getCaptureRate() + "%" + " - " + p.getIsLegendary() + " - " + p.getGeneration() + " gen" + "]" + " - " + formattedDate);
+     System.out.print("[#" + p.getId() + " -> " + p.getName() +": " + p.getDescription() + " - " + "[" + tiposFormatados + "]" + " - " + "[" + abilitiesFormatadas + "]" + " - " + p.getWeight() + "kg" + " - " + p.getHeight() + "m" + " - " +  p.getCaptureRate() + "%" + " - ");
+     System.out.println(p.getIsLegendary() + " - " + p.getGeneration() + " gen" + "]" + " - " + formattedDate);
     
     }
 }
