@@ -1,7 +1,9 @@
 import java.util.*;
 import java.io.*;
-import java.text.*;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Main{
     public static void main(String[] args){
@@ -41,7 +43,7 @@ class Pokemon{
     private double height;
     private int captureRate;
     private boolean isLegendary;
-    private Date captureDate;
+    private LocalDate captureDate;
 
     // Implementação dos métodos gets e sets de todos os atributos
     public void setId(int id){
@@ -84,7 +86,7 @@ class Pokemon{
         this.isLegendary = legendary;
     }
 
-    public void setCaptureDate(Date captureDate){
+    public void setCaptureDate(LocalDate captureDate){
         this.captureDate = captureDate;
     }
 
@@ -128,7 +130,7 @@ class Pokemon{
         return this.isLegendary;
     }
 
-    public Date getCaptureDate(){
+    public LocalDate getCaptureDate(){
         return this.captureDate;
     }
 
@@ -147,7 +149,7 @@ class Pokemon{
         this.abilities = new ArrayList<>();
     }
     
-    public Pokemon(int id, String name, int generation, String description, List<String> types, List<String> abilities, double weight, double height, boolean isLegendary,int captureRate,  Date captureDate){
+    public Pokemon(int id, String name, int generation, String description, List<String> types, List<String> abilities, double weight, double height, boolean isLegendary,int captureRate,  LocalDate captureDate){
         this.id = id;
         this.name = name;
         this.generation = generation;
@@ -173,7 +175,7 @@ class Pokemon{
 
         List<Pokemon> pokedex = new ArrayList<>();
      
-     try(BufferedReader leitor = new BufferedReader(new FileReader("pokemon.csv"))){
+     try(BufferedReader leitor = new BufferedReader(new FileReader("/tmp/pokemon.csv"))){
        
         String linha;
      
@@ -195,8 +197,8 @@ class Pokemon{
                 }
             }
             // Tira os colchetes, vírgulas, aspas duplas e simples
-            linha = linha.replaceAll("[\"'\\[\\],]", "").trim();
-            atributos = linha.split(" ");
+            linha = linha.replaceAll("[\"'\\[\\]]", "").trim();
+            atributos = linha.split(",");
 
             Pokemon p = new Pokemon();
             int cont = 0;        
@@ -209,28 +211,30 @@ class Pokemon{
             cont++;
             p.setDescription(atributos[cont]);
             cont++;
-            p.setType(atributos[cont]);
+            p.setType(atributos[cont].trim());
+            cont++;
             //checar se da erro
-            if(!atributos[5].equals("")){
-             p.setType(atributos[5]);
-             cont++;
+            if(!atributos[cont].isEmpty()){
+             p.setType(atributos[cont].trim());
             }
+            cont++;
 
            int qtdAbilites = (pointerFim - pointerInicio) + 1;
             
            for(int i = 6; i <= pointerFim; i++){
-            p.setAbility(atributos[i]);
+            p.setAbility(atributos[i].trim());
+            
            }
         
            cont += qtdAbilites;
 
-           p.setWeight(Double.parseDouble(atributos[cont]));
+           p.setWeight(Double.parseDouble(atributos[cont].trim()));
            cont++;
-           p.setHeight(Double.parseDouble(atributos[cont]));
+           p.setHeight(Double.parseDouble(atributos[cont].trim()));
            cont++;
-           p.setCaptureRate(Integer.parseInt(atributos[cont]));
+           p.setCaptureRate(Integer.parseInt(atributos[cont].trim()));
            cont++;
-           if(Integer.parseInt(atributos[cont]) == 0){
+           if(Integer.parseInt(atributos[cont].trim()) == 0){
             p.setIsLegendary(false);
             cont++;
            }
@@ -241,16 +245,16 @@ class Pokemon{
         }catch(NumberFormatException e){
             e.printStackTrace();
         }
-           SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
  
-           try {
-            // Converter string para objeto Date
-             Date data = formatter.parse(atributos[cont]);
+        try {
+            LocalDate data = LocalDate.parse(atributos[cont].trim(), formato);
              p.setCaptureDate(data);
-        } catch (ParseException e) {
+            // set capture date, ta no outro gpt
+        } catch (DateTimeParseException e) {
             e.printStackTrace();
         }
-  
+
            pokedex.add(p);
         }
     
@@ -263,11 +267,18 @@ class Pokemon{
     }
 
     public void imprimePokemon(Pokemon p){
-    
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String formattedDate = p.getCaptureDate().format(dateFormatter);
+
      String tiposFormatados = p.getTypes().stream().map(tipo -> "'" + tipo + "'")  // Colocando aspas simples em volta de cada tipo
      .collect(Collectors.joining(", "));  // Juntando os tipos separados por vírgula
 
-     System.out.println("[#" + p.getId() + " ->" + p.getName() +": " + p.getDescription() + " - " + "[" + tiposFormatados + "]" + " - " + "[" + p.getAbilities() + "]" + " - " + p.getWeight() + "kg" + " - " + p.getHeight() + "m" + " - " +  p.getCaptureRate() + "%" + " - " + p.getIsLegendary() + " - " + p.getGeneration() + " gen" + "]" + " - " + p.getCaptureDate());
+     String abilitiesFormatadas = p.getAbilities().stream()
+    .map(ability -> "'" + ability + "'")  // Colocando aspas simples em volta de cada habilidade
+    .collect(Collectors.joining(", "));  // Juntando as habilidades separadas por vírgula
+
+
+     System.out.println("[#" + p.getId() + " -> " + p.getName() +": " + p.getDescription() + " - " + "[" + tiposFormatados + "]" + " - " + "[" + abilitiesFormatadas + "]" + " - " + p.getWeight() + "kg" + " - " + p.getHeight() + "m" + " - " +  p.getCaptureRate() + "%" + " - " + p.getIsLegendary() + " - " + p.getGeneration() + " gen" + "]" + " - " + formattedDate);
     
     }
 }
