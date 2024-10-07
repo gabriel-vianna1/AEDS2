@@ -6,59 +6,56 @@ import java.time.Instant;
 import java.time.Duration;
 import java.util.stream.Collectors;
 
-class Main{
-    public static void main(String[] args){
-
+class Main {
+    public static void main(String[] args) {
         // Medição de tempo, pega o instante inicial
         Instant start = Instant.now();
-     
-    Scanner sc = new Scanner(System.in);
-    List<Pokemon> pokedex = Pokemon.lerPokemons();
-    Pokemon[] pokemons = new Pokemon[51];
-    boolean fim = true;
-    int idPokemon = 0;
-    int i = 0;
 
-    // Joga os pokemons selecionados para um array
-    do {
-        String entrada = sc.nextLine();
-        if (entrada.equals("FIM")) {
-            fim = false;
-        } else {
-            try {
-                idPokemon = Integer.parseInt(entrada);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
+        Scanner sc = new Scanner(System.in);
+        List<Pokemon> pokedex = Pokemon.lerPokemons();
+        List<Pokemon> pokemons = new ArrayList<>();
+        boolean fim = true;
+        int idPokemon;
+
+        // Joga os pokemons selecionados para uma lista
+        while (fim) {
+            String entrada = sc.nextLine();
+            if (entrada.equals("FIM")) {
+                fim = false;
+            } else {
+                try {
+                    idPokemon = Integer.parseInt(entrada);
+                    // Verifica se o ID do Pokémon é válido
+                    if (idPokemon >= 1 && idPokemon <= pokedex.size()) {
+                        pokemons.add(Pokemon.clonePokemon(pokedex.get(idPokemon - 1)));
+                    } 
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrada inválida. Por favor, insira um número.");
+                }
             }
-
-            pokemons[i] = Pokemon.clonePokemon(pokedex.get(idPokemon - 1));
-            i++;
         }
-    } while (fim);
 
-    int contador = Pokemon.selectionSort(pokemons);
-    //Imprime os pokemons ordenados
-    for(Pokemon p : pokemons){
-        Pokemon.imprimePokemon(p);
-    }
+        Pokemon[] pokemonArray = pokemons.toArray(new Pokemon[0]);
+        int contador = Pokemon.selectionSort(pokemonArray);
 
-    String matricula = "729281";
-     // Pega o instante final do código
-     Instant end = Instant.now();
-     Duration duration = Duration.between(start, end);
-    try(PrintWriter escritor = new PrintWriter(new FileWriter("matrícula_selecao.txt"))){
-        escritor.println(matricula + "\t" + duration + "\t" +  contador);
-   }catch(IOException e){
-    e.printStackTrace();
-}
+        // Imprime os pokemons ordenados
+        for (Pokemon p : pokemonArray) {
+            Pokemon.imprimePokemon(p);
+        }
 
+        String matricula = "729281";
+        // Pega o instante final do código
+        Instant end = Instant.now();
+        Duration duration = Duration.between(start, end);
+        try (PrintWriter escritor = new PrintWriter(new FileWriter("matrícula_selecao.txt"))) {
+            escritor.println(matricula + "\t" + duration + "\t" + contador);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-    
-
-    sc.close();
+        sc.close();
     }
 }
-
 class Pokemon {
     private int id;
     private int generation;
@@ -335,7 +332,7 @@ class Pokemon {
             for (int j = i + 1; j < n; j++) {
                 // O compareTo é o strcmp do java, ele retorna menor que 0 se a primeira string for antes
                 if (array[j].getName().compareTo(array[minIndex].getName()) < 0) {
-                    minIndex = j; // Atualiza o índice do menor elemento
+                    minIndex = j; 
                 }
             }
 
@@ -348,3 +345,4 @@ class Pokemon {
         return cont;
     }
 }
+
