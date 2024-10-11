@@ -30,7 +30,7 @@ class Main {
                         pokemons.add(Pokemon.clonePokemon(pokedex.get(idPokemon - 1)));
                     } 
                 } catch (NumberFormatException e) {
-                    System.out.println("Entrada inválida. Por favor, insira um número.");
+                    e.printStackTrace();
                 }
             }
         }
