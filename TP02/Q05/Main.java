@@ -30,8 +30,7 @@ class Main {
                         pokemons.add(Pokemon.clonePokemon(pokedex.get(idPokemon - 1)));
                     } 
                 } catch (NumberFormatException e) {
-                   e.printStackTrace();
-                }
+                    e.printStackTrace();
             }
         }
 
