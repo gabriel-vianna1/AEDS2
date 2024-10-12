@@ -37,7 +37,9 @@ class Main {
 
         Pokemon[] pokemonArray = pokemons.toArray(new Pokemon[0]);
         Pokemon[] menores = Pokemon.ArrayMenores(pokemonArray);
-        int contador = Pokemon.selectionSort(menores);
+        Pokemon.quickSort(menores, 0, menores.length - 1);
+        int contador = Pokemon.cont;
+
 
         // Imprime os pokemons ordenados
         for (Pokemon p : menores) {
@@ -48,7 +50,7 @@ class Main {
         // Pega o instante final do código
         Instant end = Instant.now();
         Duration duration = Duration.between(start, end);
-        try (PrintWriter escritor = new PrintWriter(new FileWriter("matrícula_selecao.txt"))) {
+        try (PrintWriter escritor = new PrintWriter(new FileWriter("matrícula_quicksort.txt"))) {
             escritor.println(matricula + "\t" + duration + "\t" + contador);
         } catch (IOException e) {
             e.printStackTrace();
@@ -323,28 +325,46 @@ class Pokemon {
     
     }
 
-    public static int selectionSort(Pokemon[] array) {
-        int n = array.length;
-        int cont = 0;
-
-        for (int i = 0; i < n - 1; i++) {
-            // Encontra o menor elemento no subarray não ordenado
-            int minIndex = i;
-            for (int j = i + 1; j < n; j++) {
-                // O compareTo é o strcmp do java, ele retorna menor que 0 se a primeira string for antes
-                if (array[j].getName().compareTo(array[minIndex].getName()) < 0) {
-                    minIndex = j; 
-                }
-            }
-
-            Pokemon temp = Pokemon.clonePokemon(array[minIndex]);
-            array[minIndex] = Pokemon.clonePokemon(array[i]);
-            array[i] = Pokemon.clonePokemon(temp);
-            cont ++;
-
-        }
-        return cont;
+    private static void troca(Pokemon[] array, int i, int j) {
+        Pokemon temp = Pokemon.clonePokemon(array[i]);
+        array[i] = Pokemon.clonePokemon(array[j]);
+        array[j] = Pokemon.clonePokemon(temp);
     }
+
+   public static int cont = 0;
+   // Função para encontrar o pivô e particionar o array
+   public static int particiona(Pokemon[] array, int inicio, int fim) {
+    Pokemon pivot = Pokemon.clonePokemon(array[fim]); // Escolhe o último elemento como pivô
+    int i = (inicio - 1);   // Índice do menor elemento
+
+    for (int j = inicio; j < fim; j++) {
+        if (array[j].getGeneration() < pivot.getGeneration()) {
+            i++;
+            troca(array, i, j);
+            cont++;
+        }else if(array[j].getGeneration() == pivot.getGeneration()){
+            if(array[j].getName().compareTo(pivot.getName()) < 0){
+                i++;
+                troca(array, i, j);
+                cont++;
+            }
+        }
+    }
+    troca(array, i + 1, fim);
+    cont++;
+    return i + 1;
+}
+
+public static void quickSort(Pokemon[] array, int inicio, int fim) {
+    if (inicio < fim) {
+        int indicePivo = particiona(array, inicio, fim);
+
+        // Ordena recursivamente as duas sublistas
+        quickSort(array, inicio, indicePivo - 1);
+        quickSort(array, indicePivo + 1, fim);
+    }
+}
+
     public static Pokemon[] ArrayMenores(Pokemon[] array) {
         int n = array.length;
         Pokemon[] menores = new Pokemon[10];
