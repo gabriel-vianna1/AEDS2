@@ -79,10 +79,9 @@ else if(operacao.equals("R*")){
     }catch(Exception e) { e.printStackTrace(); }
  }
 }
-
+int i = 0;
 while(!Pokemons.isVazia()){
 try{
-int i = 0;
 System.out.print("[" + i + "] ");
 Pokemon.imprimePokemon(Pokemons.removerInicio());
 i++;
@@ -231,7 +230,7 @@ class Pokemon {
     public static List<Pokemon> lerPokemons() {
         List<Pokemon> pokedex = new ArrayList<>();
 
-        try (BufferedReader leitor = new BufferedReader(new FileReader("/tmp/pokemon.csv"))) {
+        try (BufferedReader leitor = new BufferedReader(new FileReader("pokemon.csv"))) {
             String linha = leitor.readLine();
             
             while ((linha = leitor.readLine()) != null) {
