@@ -8,7 +8,7 @@ class Main{
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
 
-        Lista Pokemons = Lista(80);
+        Lista Pokemons =  new Lista(80);
         List<Pokemon> pokedex = Pokemon.lerPokemons();
         
         // Ler os pokemons que serão jogados p/lista
@@ -25,7 +25,9 @@ class Main{
             Pokemons.inserirFim(pokedex.get(pokemonID - 1));
 
         }catch(NumberFormatException e){
-            e.printStackTrace;
+            e.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 }while(fim);
@@ -34,34 +36,60 @@ int n = sc.nextInt();
 sc.nextLine(); // Limpa o buffer
 
 for(int i = 0; i < n; i++){
-String entrada = sc.nextLine();
-String[] separar = entrada.split(" ");
+String input = sc.nextLine();
+String[] separar = input.split(" ");
 String operacao = separar[0];
 
 if(operacao.equals("II")){
     try{
     int id = Integer.parseInt(separar[1]);
     Pokemons.inserirInicio(pokedex.get(id - 1));
-    }catch(Exception e) { e.printStackTrace; }
+    }catch(Exception e) { e.printStackTrace(); }
 }
 else if(operacao.equals("IF")){
 try{
 int id = Integer.parseInt(separar[1]);
 Pokemons.inserirFim(pokedex.get(id - 1));
-}catch(Exception e) { e.printStackTrace; }
+}catch(Exception e) { e.printStackTrace(); }
 }
 else if(operacao.equals("I*")){
     try{
     int pos = Integer.parseInt(separar[1]);
     int id = Integer.parseInt(separar[2]);
-    Pokemons.inserir(pos, id - 1);
-    }catch(Exception e) { e.printStackTrace; }
+    Pokemons.inserir(pokedex.get(id- 1), pos);
+    }catch(Exception e) { e.printStackTrace(); }
+  }
+ else if(operacao.equals("RI")){
+    try{
+    Pokemon removido = Pokemons.removerInicio();
+    System.out.println("(R) " + removido.getName());
+    }catch(Exception e) { e.printStackTrace(); }
+}
+else if(operacao.equals("RF")){
+    try{
+    Pokemon removido = Pokemons.removerFim();
+    System.out.println("(R) " + removido.getName());
+    }catch(Exception e) { e.printStackTrace(); }
+}
+else if(operacao.equals("R*")){
+    try{
+    int pos = Integer.parseInt(separar[1]);
+    Pokemon removido = Pokemons.remover(pos);
+    System.out.println("(R) " + removido.getName());
+    }catch(Exception e) { e.printStackTrace(); }
+ }
 }
 
+while(!Pokemons.isVazia()){
+try{
+int i = 0;
+System.out.print("[" + i + "] ");
+Pokemon.imprimePokemon(Pokemons.removerInicio());
+i++;
+ }catch(Exception e){e.printStackTrace();}
 }
 
-        sc.close();
-    }
+sc.close(); }
 }
 
 class Pokemon {
@@ -307,6 +335,29 @@ class Pokemon {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return LocalDate.parse(dateStr, formatter);
     }
+    
+    public static void imprimePokemon(Pokemon p){
+        
+        String formattedDate = "Nulo";
+
+    if (p.getCaptureDate() != null) {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            formattedDate = p.getCaptureDate().format(dateFormatter);
+        }
+
+     String tiposFormatados = p.getTypes().stream().map(tipo -> "'" + tipo + "'")  // Colocando aspas simples em volta de cada tipo
+     .collect(Collectors.joining(", "));  // Juntando os tipos separados por vírgula
+
+     String abilitiesFormatadas = p.getAbilities().stream()
+    .map(ability -> "'" + ability + "'")  // Colocando aspas simples em volta de cada habilidade
+    .collect(Collectors.joining(", "));  // Juntando as habilidades separadas por vírgula
+
+
+     System.out.print("[#" + p.getId() + " -> " + p.getName() +": " + p.getDescription() + " - " + "[" + tiposFormatados + "]" + " - " + "[" + abilitiesFormatadas + "]" + " - " + p.getWeight() + "kg" + " - " + p.getHeight() + "m" + " - " +  p.getCaptureRate() + "%" + " - ");
+     System.out.println(p.getIsLegendary() + " - " + p.getGeneration() + " gen" + "]" + " - " + formattedDate);
+    
+    }
+
 }
 
 class Lista {
@@ -391,7 +442,7 @@ class Lista {
       return array[--n];
    }
 
-   public int remover(int pos) throws Exception {
+   public Pokemon remover(int pos) throws Exception {
 
       //validar remocao
       if (n == 0 || pos < 0 || pos >= n) {
@@ -419,8 +470,13 @@ class Lista {
    public boolean pesquisar(Pokemon x) {
       boolean retorno = false;
       for (int i = 0; i < n && retorno == false; i++) {
-         retorno = (array[i].name.equals(x.name));
+         retorno = (array[i].getName().equals(x.getName()));
       }
       return retorno;
    }
+
+   public boolean isVazia() {
+    return n == 0;
+}
+
 }
