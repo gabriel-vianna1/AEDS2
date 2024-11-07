@@ -38,7 +38,7 @@ sc.nextLine(); // Limpa o buffer
 for(int i = 0; i < n; i++){
 String input = sc.nextLine();
 
-if(input.equals("R")){
+if(input.charAt(0) == 'R'){
     try{
     Pokemon removido = Pokemons.remover();
     System.out.println("(R) " + removido.getName());
@@ -209,7 +209,7 @@ class Pokemon {
     public static List<Pokemon> lerPokemons() {
         List<Pokemon> pokedex = new ArrayList<>();
 
-        try (BufferedReader leitor = new BufferedReader(new FileReader("/tmp/pokemon.csv"))) {
+        try (BufferedReader leitor = new BufferedReader(new FileReader("pokemon.csv"))) {
             String linha = leitor.readLine();
             
             while ((linha = leitor.readLine()) != null) {
@@ -368,17 +368,6 @@ class Pokemon {
 		tmp.prox = null;
 		tmp = null;
 		return resp;
-	}
-
-	/**
-	 * Mostra os elementos separados por espacos, comecando do topo.
-	 */
-	public void mostrar() {
-		System.out.print("[ ");
-		for (Celula i = topo; i != null; i = i.prox) {
-			System.out.print(i.elemento + " ");
-		}
-		System.out.println("] ");
 	}
 
     public static Pilha inverter(Pilha p){

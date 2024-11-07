@@ -2,6 +2,7 @@
 (R) Emboar
 (R) Thundurus
 (R) Mamoswine
+(R) Tirtouga
 (R) Arbok
 (R) Rattata
 (R) Corsola
@@ -41,9 +42,8 @@
 [33] [#47 -> Parasect: Mushroom Pokémon - ['bug', 'grass'] - ['Effect Spore', 'Dry Skin', 'Damp'] - 29.5kg - 1.0m - 75% - false - 1 gen] - 04/04/1996
 [34] [#61 -> Poliwhirl: Tadpole Pokémon - ['water'] - ['Water Absorb', 'Damp', 'Swift Swim'] - 20.0kg - 1.0m - 120% - false - 1 gen] - 24/10/1996
 [35] [#252 -> Treecko: Wood Gecko Pokémon - ['grass'] - ['Overgrow', 'Unburden'] - 5.0kg - 0.5m - 45% - false - 3 gen] - 19/01/2002
-[36] [#564 -> Tirtouga: Prototurtle Pokémon - ['water', 'rock'] - ['Solid Rock', 'Sturdy', 'Swift Swim'] - 16.5kg - 0.7m - 45% - false - 5 gen] - 02/09/2010
-[37] [#777 -> Togedemaru: Roly-Poly Pokémon - ['electric', 'steel'] - ['Iron Barbs', 'Lightningrod', 'Sturdy'] - 3.3kg - 0.3m - 180% - false - 7 gen] - 04/09/2016
-[38] [#466 -> Electivire: Thunderbolt Pokémon - ['electric'] - ['Motor Drive', 'Vital Spirit'] - 138.6kg - 1.8m - 30% - false - 4 gen] - 15/07/2006
-[39] [#328 -> Trapinch: Ant Pit Pokémon - ['ground'] - ['Hyper Cutter', 'Arena Trap', 'Sheer Force'] - 15.0kg - 0.7m - 255% - false - 3 gen] - 23/04/2002
-[40] [#740 -> Crabominable: Woolly Crab Pokémon - ['fighting', 'ice'] - ['Hyper Cutter', 'Iron Fist', 'Anger Point'] - 180.0kg - 1.7m - 60% - false - 7 gen] - 25/03/2016
-[41] [#438 -> Bonsly: Bonsai Pokémon - ['rock'] - ['Sturdy', 'Rock Head', 'Rattled'] - 15.0kg - 0.5m - 255% - false - 4 gen] - 31/08/2006
+[36] [#777 -> Togedemaru: Roly-Poly Pokémon - ['electric', 'steel'] - ['Iron Barbs', 'Lightningrod', 'Sturdy'] - 3.3kg - 0.3m - 180% - false - 7 gen] - 04/09/2016
+[37] [#466 -> Electivire: Thunderbolt Pokémon - ['electric'] - ['Motor Drive', 'Vital Spirit'] - 138.6kg - 1.8m - 30% - false - 4 gen] - 15/07/2006
+[38] [#328 -> Trapinch: Ant Pit Pokémon - ['ground'] - ['Hyper Cutter', 'Arena Trap', 'Sheer Force'] - 15.0kg - 0.7m - 255% - false - 3 gen] - 23/04/2002
+[39] [#740 -> Crabominable: Woolly Crab Pokémon - ['fighting', 'ice'] - ['Hyper Cutter', 'Iron Fist', 'Anger Point'] - 180.0kg - 1.7m - 60% - false - 7 gen] - 25/03/2016
+[40] [#438 -> Bonsly: Bonsai Pokémon - ['rock'] - ['Sturdy', 'Rock Head', 'Rattled'] - 15.0kg - 0.5m - 255% - false - 4 gen] - 31/08/2006
