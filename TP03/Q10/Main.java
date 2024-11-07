@@ -3,10 +3,14 @@ import java.io.*;
 import java.util.stream.Collectors;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.Instant;
+import java.time.Duration;
 
 class Main{
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
+        
+        Instant start = Instant.now();
 
         ListaDupla Pokemons =  new ListaDupla();
         List<Pokemon> pokedex = Pokemon.lerPokemons();
@@ -39,6 +43,16 @@ try{
 
 Pokemon.imprimePokemon(Pokemons.removerInicio());
  }catch(Exception e){e.printStackTrace();}
+}
+
+String matricula = "729281";
+Instant end = Instant.now();
+Duration duration = Duration.between(start, end);
+
+try (PrintWriter escritor = new PrintWriter(new FileWriter("matrícula_quicksort3.txt"))) {
+    escritor.println(matricula + "\t" + duration);
+} catch (IOException e) {
+    e.printStackTrace();
 }
 
 sc.close(); }
@@ -183,7 +197,7 @@ class Pokemon {
     public static List<Pokemon> lerPokemons() {
         List<Pokemon> pokedex = new ArrayList<>();
 
-        try (BufferedReader leitor = new BufferedReader(new FileReader("pokemon.csv"))) {
+        try (BufferedReader leitor = new BufferedReader(new FileReader("/tmp/pokemon.csv"))) {
             String linha = leitor.readLine();
             
             while ((linha = leitor.readLine()) != null) {
