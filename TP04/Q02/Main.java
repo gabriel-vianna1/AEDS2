@@ -409,12 +409,11 @@ class Arvore{
          String nome = p.getName();       
         if(i == null){
             i = new No2(nome);
-            System.out.println("Inserido com sucesso");
-        }
-        else if(i.elemento.compareTo(nome) < 0){
-            i.esq = inserirNo2(i.esq, p);
         }
         else if(i.elemento.compareTo(nome) > 0){
+            i.esq = inserirNo2(i.esq, p);
+        }
+        else if(i.elemento.compareTo(nome) < 0){
             i.dir = inserirNo2(i.dir, p);
         }
         else{
@@ -428,21 +427,19 @@ class Arvore{
     public No inserirAuxiliar(No i, Pokemon p) throws Exception {
         int resto = p.getCaptureRate() % 15;
     
-        System.out.println("Verificando nó: " + i.elemento + ", CaptureRate: " + p.getCaptureRate() + ", Resto: " + resto);
-    
         if (i == null) {
             System.out.println("i é null, entrando no primeiro if.");
             throw new Exception("CaptureRate inexistente");
         }
     
         else if (i.elemento > resto) {
-            System.out.println("Indo para a subárvore esquerda de " + i.elemento);
+
             i.esq = inserirAuxiliar(i.esq, p);
         } else if (i.elemento < resto) {
-            System.out.println("Indo para a subárvore direita de " + i.elemento);
+
             i.dir = inserirAuxiliar(i.dir, p);
         } else {
-            System.out.println("Nó encontrado. Inserindo Pokémon...");
+
             i.raiz2 = inserirNo2(i.raiz2, p);
         }
     
@@ -464,7 +461,7 @@ class Arvore{
         else if(i.elemento.equals(nome)){
             resp = true;
         }
-        else if(i.elemento.compareTo(nome) < 0){
+        else if(i.elemento.compareTo(nome) > 0){
             System.out.print("esq ");
             resp = pesquisar2(i.esq, nome);
         }
