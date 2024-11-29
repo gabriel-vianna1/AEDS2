@@ -38,15 +38,27 @@ class Main{
         fim = true;
         do{
             String entrada = sc.nextLine();
+            
+            Pokemon procurado = new Pokemon();
 
             if(entrada.equals("FIM")){fim = false;}
             else{
-                System.out.println("=> " + entrada);
-                boolean achou = arvore.pesquisar(entrada);
 
-                if(achou){System.out.println("SIM");}
-                else{System.out.println("NAO");}
+                for(Pokemon p : pokedex){
+                    if(p.getName().equals(entrada)){procurado = Pokemon.clonePokemon(p);}
+                }
+
+                System.out.println("=> " + entrada);
+                System.out.print("raiz ");
+                
+                
+                boolean achou = arvore.pesquisar(arvore.raiz, procurado);
+
+                if(achou){System.out.println(" SIM");}
+                else{System.out.println(" NAO");}
+                
             }
+
 
         }while(fim);
 
@@ -203,7 +215,7 @@ class Pokemon {
     public static List<Pokemon> lerPokemons() {
         List<Pokemon> pokedex = new ArrayList<>();
 
-        try (BufferedReader leitor = new BufferedReader(new FileReader("pokemon.csv"))) {
+        try (BufferedReader leitor = new BufferedReader(new FileReader("/tmp/pokemon.csv"))) {
             String linha = leitor.readLine();
             
             while ((linha = leitor.readLine()) != null) {
@@ -448,19 +460,24 @@ class Arvore{
     
     
 
-    public boolean pesquisar(String nome){
+/*/    public boolean pesquisar(Pokemon p){
         System.out.print("raiz ");
-        return pesquisar(raiz, nome);
+        boolean resp = false;
+        try{
+        resp = pesquisar(p);
+        }catch(Exception e){e.printStackTrace();}
+        return resp;
     }
 
+ */
     public boolean pesquisar2(No2 i, String nome){
         boolean resp;
         if(i == null){
             resp = false;
         }
         else if(i.elemento.equals(nome)){
-            resp = true;
-        }
+            return true;
+        }   
         else if(i.elemento.compareTo(nome) > 0){
             System.out.print("esq ");
             resp = pesquisar2(i.esq, nome);
@@ -473,35 +490,28 @@ class Arvore{
         return resp;
 
         }
+        public boolean pesquisar(No i, Pokemon p){
+           boolean resp;
+           contador++;
 
-        public boolean pesquisar(No i, String nome) {
-            boolean resp = false;
-            contador++;
-            
-            if (i != null) {
-               
-                if (pesquisar2(i.raiz2, nome)) {
-                    resp = true;
-                }
-                
-            
-                if (i.esq != null) {
-                    System.out.print("ESQ ");
-                    if (pesquisar(i.esq, nome)) {
-                        resp = true;
-                    }
-                }
-                
-              
-                if (i.dir != null) {
-                    System.out.print("DIR ");
-                    if (pesquisar(i.dir, nome)) {
-                        resp = true; 
-                    }
-                }
+           if(i != null){
+            resp = pesquisar2(i.raiz2, p.getName());
+
+            if(!resp){
+                System.out.print(" ESQ ");
+                resp = pesquisar(i.esq, p);
             }
-            
-            return resp; 
+            if(!resp){
+                System.out.print(" DIR ");
+                resp = pesquisar(i.dir, p);
+            }
+           
+           }
+
+           else{
+            resp = false;
+           }
+           return resp;
         }
         
 }
