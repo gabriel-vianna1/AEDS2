@@ -215,7 +215,7 @@ class Pokemon {
     public static List<Pokemon> lerPokemons() {
         List<Pokemon> pokedex = new ArrayList<>();
 
-        try (BufferedReader leitor = new BufferedReader(new FileReader("/tmp/pokemon.csv"))) {
+        try (BufferedReader leitor = new BufferedReader(new FileReader("pokemon.csv"))) {
             String linha = leitor.readLine();
             
             while ((linha = leitor.readLine()) != null) {
@@ -458,18 +458,7 @@ class Arvore{
         return i;
     }
     
-    
 
-/*/    public boolean pesquisar(Pokemon p){
-        System.out.print("raiz ");
-        boolean resp = false;
-        try{
-        resp = pesquisar(p);
-        }catch(Exception e){e.printStackTrace();}
-        return resp;
-    }
-
- */
     public boolean pesquisar2(No2 i, String nome){
         boolean resp;
         if(i == null){
