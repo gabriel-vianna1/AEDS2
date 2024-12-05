@@ -1,193 +1,50 @@
 Mew
- esq
- dir
- dir
- dir
- esq
-SIM
+raiz esq dir dir dir esq SIM
 Charmander
- esq
- esq
- esq
- dir
- esq
- dir
- esq
-NAO
+raiz esq esq esq dir esq dir esq NAO
 Squirtle
- dir
- esq
- dir
- dir
- dir
- esq
-NAO
+raiz dir esq dir dir dir esq NAO
 Pikachu
- dir
- esq
- esq
- esq
- dir
- dir
-NAO
+raiz dir esq esq esq dir dir NAO
 Jigglypuff
- esq
- esq
- dir
- dir
- dir
- dir
-NAO
+raiz esq esq dir dir dir dir NAO
 Poliwag
- dir
- esq
- esq
- esq
- dir
- dir
-NAO
+raiz dir esq esq esq dir dir NAO
 Meowth
- esq
- dir
- dir
- dir
- esq
- esq
-NAO
+raiz esq dir dir dir esq esq NAO
 Scyther
- dir
- esq
- dir
- esq
- dir
- dir
-NAO
+raiz dir esq dir esq dir dir NAO
 Chikorita
- esq
- esq
- esq
- dir
- esq
- dir
- esq
-NAO
+raiz esq esq esq dir esq dir esq NAO
 Totodile
- dir
- dir
- esq
- dir
- dir
-NAO
+raiz dir dir esq dir dir NAO
 Ditto
- esq
- esq
- dir
- esq
- esq
-SIM
+raiz esq esq dir esq esq SIM
 Togepi
- dir
- dir
- esq
- dir
- dir
-NAO
+raiz dir dir esq dir dir NAO
 Ampharos
- esq
- esq
- esq
- esq
- esq
-SIM
+raiz esq esq esq esq esq SIM
 Misdreavus
- esq
- dir
- dir
- dir
- esq
- dir
-NAO
+raiz esq dir dir dir esq dir NAO
 Houndour
- esq
- esq
- dir
- dir
- dir
- esq
-NAO
+raiz esq esq dir dir dir esq NAO
 Treecko
- dir
- dir
- dir
- esq
- esq
-SIM
+raiz dir dir dir esq esq SIM
 Tyranitar
- dir
- dir
- dir
- esq
-SIM
+raiz dir dir dir esq SIM
 Mudkip
- esq
- dir
- dir
- dir
- esq
- dir
-NAO
+raiz esq dir dir dir esq dir NAO
 Ralts
- dir
- esq
- dir
- esq
- esq
-NAO
+raiz dir esq dir esq esq NAO
 Shinx
- dir
- esq
- dir
- esq
- dir
- dir
-NAO
+raiz dir esq dir esq dir dir NAO
 Gible
- esq
- esq
- dir
- dir
- esq
- dir
-NAO
+raiz esq esq dir dir esq dir NAO
 Snivy
- dir
- esq
- dir
- esq
- dir
- dir
-NAO
+raiz dir esq dir esq dir dir NAO
 Tepig
- dir
- dir
- esq
- esq
- dir
- esq
-NAO
+raiz dir dir esq esq dir esq NAO
 Froakie
- esq
- esq
- dir
- dir
- esq
- dir
-NAO
+raiz esq esq dir dir esq dir NAO
 Rowlet
- dir
- esq
- dir
- esq
- dir
- dir
-NAO
+raiz dir esq dir esq dir dir NAO

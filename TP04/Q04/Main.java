@@ -38,6 +38,7 @@ class Main{
             if(entrada.equals("FIM")){fim = false;}
             else{
                 System.out.println(entrada);
+                System.out.print("raiz ");
                 boolean achou = arvore.pesquisar(entrada);
 
                 if(achou){System.out.println("SIM");}
@@ -372,10 +373,10 @@ class NoAN {
        } else if (elemento.compareTo(i.elemento.getName()) == 0) {
           resp = true;
        } else if (elemento.compareTo(i.elemento.getName()) < 0) {
-        System.out.println(" esq"); 
+        System.out.print("esq "); 
         resp = pesquisar(elemento, i.esq);
        } else {
-           System.out.println(" dir");       
+           System.out.print("dir ");       
           resp = pesquisar(elemento, i.dir);
        }
        return resp;
