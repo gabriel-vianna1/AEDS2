@@ -208,7 +208,7 @@ class Pokemon {
     public static List<Pokemon> lerPokemons() {
         List<Pokemon> pokedex = new ArrayList<>();
 
-        try (BufferedReader leitor = new BufferedReader(new FileReader("pokemon.csv"))) {
+        try (BufferedReader leitor = new BufferedReader(new FileReader("/tmp/pokemon.csv"))) {
             String linha = leitor.readLine();
             
             while ((linha = leitor.readLine()) != null) {
